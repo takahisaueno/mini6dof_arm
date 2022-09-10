@@ -1,0 +1,14 @@
+<launch>
+
+<arg name="Port" default="0"/>
+<arg name="Baudrate" default="115200"/>
+<node name="demo" pkg="mini6dof_arm" type="simple_moveit_subscriber.py" respawn="false" required="false" output="screen"/>
+
+<node name="open_rosserial" pkg="rosserial_python" type="serial_node.py" output="screen">
+    <param name="port" value="/dev/ttyACM$(arg Port)"/>
+    <param name="baud" value="$(arg Baudrate)"/>
+</node>
+
+<include file="$(find mini6dof_arm_config)/launch/demo.launch"/>
+
+</launch>

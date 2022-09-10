@@ -1,0 +1,4 @@
+sensor_msgs/JointState presentJoint
+---
+sensor_msgs/JointState nextJoint
+int8 motionMode
