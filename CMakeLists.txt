@@ -13,6 +13,7 @@ find_package(catkin REQUIRED COMPONENTS
   sensor_msgs
   std_msgs
   message_generation
+  dynamixel_sdk
 )
 
 ## System dependencies are found with CMake's conventions
@@ -51,13 +52,11 @@ find_package(catkin REQUIRED COMPONENTS
 ## Generate messages in the 'msg' folder
 add_message_files(
   FILES
-  joint_state_msg.msg
 )
 
 ## Generate services in the 'srv' folder
 add_service_files(
    FILES
-   jointstateService.srv
 )
 
 ## Generate actions in the 'action' folder
@@ -106,7 +105,7 @@ generate_messages(
 catkin_package(
   INCLUDE_DIRS include
   LIBRARIES mini6dof_arm
-  CATKIN_DEPENDS roscpp rospy sensor_msgs std_msgs message_runtime
+  CATKIN_DEPENDS roscpp rospy sensor_msgs std_msgs message_runtime dynamixel_sdk
 )
 
 ###########
@@ -116,7 +115,6 @@ catkin_package(
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 include_directories(
-# include
   ${catkin_INCLUDE_DIRS}
 )
 
@@ -133,7 +131,7 @@ include_directories(
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-# add_executable(${PROJECT_NAME}_node src/mini6dof_arm_node.cpp)
+add_executable(simple_moveit_subscriber src/simple_moveit_subscriber.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -146,9 +144,9 @@ include_directories(
 # add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-# target_link_libraries(${PROJECT_NAME}_node
-#   ${catkin_LIBRARIES}
-# )
+target_link_libraries(simple_moveit_subscriber
+  ${catkin_LIBRARIES}
+)
 
 #############
 ## Install ##
