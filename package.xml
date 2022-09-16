@@ -66,6 +66,8 @@
   <depend>actionlib</depend>
   <depend>action_msgs</depend>
   <depend>dynamixel_sdk</depend>
+  <depend>dynamixel_control</depend>
+  <depend>roslib</depend>
 
   <!-- <depend>robot_state_publisher<depend> -->
 
