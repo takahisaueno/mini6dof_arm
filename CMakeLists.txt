@@ -11,12 +11,13 @@ sensor_msgs
 std_msgs
 dynamixel_sdk
 dynamixel_control
+controller_manager
 )
 
 catkin_package(
   INCLUDE_DIRS include
   LIBRARIES mini6dof_arm
-  CATKIN_DEPENDS roscpp rospy sensor_msgs std_msgs message_runtime dynamixel_control dynamixel_sdk roslib
+  CATKIN_DEPENDS roscpp rospy sensor_msgs std_msgs message_runtime dynamixel_control dynamixel_sdk roslib controller_manager
 )
 
 include_directories(
@@ -25,10 +26,16 @@ include_directories(
 )
 
 add_executable(simple_moveit_subscriber src/simple_moveit_subscriber.cpp)
-
 add_dependencies(simple_moveit_subscriber ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-
 target_link_libraries(simple_moveit_subscriber
+  ${catkin_LIBRARIES}
+)
+
+
+
+add_executable(MyRobot_hardware_interface src/MyRobot_hardware_interface.cpp)
+add_dependencies(MyRobot_hardware_interface ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(MyRobot_hardware_interface
   ${catkin_LIBRARIES}
 )
 
