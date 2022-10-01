@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <launch>
   <arg name="model" default="$(find mini6dof_arm)/urdf/robot_body.urdf"/>
+  
   <arg name="mode" default="true"/>
+  <arg name="moveit" default="true"/>
   
   <param name="robot_description" textfile="$(arg model)"/>
   <group if="$(eval mode==false)">
@@ -10,6 +12,8 @@
   </group>
 
   <include file="$(find mini6dof_arm)/launch/sim_control.launch" pass_all_args="true"/>
-
+  <group if="$(eval moveit==true)" ns="arm_robot">
+    <include file="$(find mini6dof_arm_config)/launch/arm_robot_planning_execution.launch"/>
+  </group>
 
 </launch>

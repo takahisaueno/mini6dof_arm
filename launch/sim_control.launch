@@ -1,14 +1,13 @@
 
 <launch>
     
-  <rosparam file="$(find mini6dof_arm)/config/controllers.yaml" command="load"/>
   
+
   <group if="$(arg mode)">
   <node name="MyRobotHardwareInterface" pkg="mini6dof_arm" type="MyRobot_hardware_interface" output="screen" ns="/arm_robot"/>  
-  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen" ns="/arm_robot"/>
-  <node  name="rviz" pkg="rviz" type="rviz" args="-d $(find mini6dof_arm)/launch/urdf.rviz "/>
   </group>
-  
+  <group if="$(eval moveit==false)">
+  <rosparam file="$(find mini6dof_arm)/config/controllers.yaml" command="load"/>
   <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" ns="/arm_robot"
         args="
             joint_state_controller
@@ -18,6 +17,24 @@
             joint4_position_controller
             joint5_position_controller
             joint6_position_controller
-        "/> 
+        "/>
+  </group>
+
+
+  <group if="$(eval moveit==true)">
+  <rosparam file="$(find mini6dof_arm)/config/moveit_controllers.yaml" command="load"/>
+  <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" ns="/arm_robot"
+    args="
+        joint_state_controller
+        arm_controller
+    "/>
+  </group>
+
+
+  <!-- <node name="controller_spawner" pkg="controller_manager" type="spawner"
+        args="arm_controller" output="screen"/> -->
+  
+  <!-- <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen" ns="/arm_robot"/> -->
+  <!-- <node  name="rviz" pkg="rviz" type="rviz" args="-d $(find mini6dof_arm)/launch/urdf.rviz "/>  -->
 </launch>
 
