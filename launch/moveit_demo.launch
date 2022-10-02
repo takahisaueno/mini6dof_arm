@@ -1,9 +1,0 @@
-<launch>
-
-<arg name="Port" default="0"/>
-<arg name="Baudrate" default="115200"/>
-<node name="simple_moveit_subscriber" pkg="mini6dof_arm" type="simple_moveit_subscriber" respawn="false" required="false" output="screen"/>
-
-<include file="$(find mini6dof_arm_config)/launch/demo.launch"/>
-
-</launch>

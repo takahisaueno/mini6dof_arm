@@ -1,0 +1,5 @@
+# parameter for yolo
+yolov5:
+  source: 3
+  get_image: False
+  model: "yolov5s.pt"

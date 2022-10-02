@@ -2,11 +2,12 @@
 <launch>
   <arg name="model" default="$(find mini6dof_arm)/urdf/robot_body.urdf"/>
   
-  <arg name="mode" default="true"/>
+  <arg name="mode" default="0" type="int"/>
   <arg name="moveit" default="true"/>
-  
+  <arg name="yolo" default="false"/>
+
   <param name="robot_description" textfile="$(arg model)"/>
-  <group if="$(eval mode==false)">
+  <group if="$(eval (mode==0 or mode==2))">
   <include file="$(find gazebo_ros)/launch/empty_world.launch"/>
   <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -model arm_robot" />
   </group>
@@ -16,4 +17,7 @@
     <include file="$(find mini6dof_arm_config)/launch/arm_robot_planning_execution.launch"/>
   </group>
 
+  <group if="$(eval yolo==true)">
+    <include file="$(find mini6dof_arm)/launch/yolo_arm.launch"/>
+  </group>
 </launch>

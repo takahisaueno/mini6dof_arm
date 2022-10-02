@@ -27,7 +27,7 @@ SimpleMoveItSubscriber::SimpleMoveItSubscriber()
 {
     bool toggle;
     ros::NodeHandle nh;
-    joint_state_sub = nh.subscribe<sensor_msgs::JointState>("joint_states", 1, &SimpleMoveItSubscriber::poseCallback, this);
+    joint_state_sub = nh.subscribe<sensor_msgs::JointState>("arm_robot/joint_states", 10, &SimpleMoveItSubscriber::poseCallback, this);
     toggle = dynamixel_ctrl.toggleTorqueMode(1);
     for (int i = 0; i < Dynamixel_NUM; i++)
     {
@@ -40,19 +40,27 @@ SimpleMoveItSubscriber::SimpleMoveItSubscriber()
 
 void SimpleMoveItSubscriber::poseCallback(const sensor_msgs::JointStateConstPtr &pose)
 {
+    bool error_flag = false;
     for (int i = 0; i < Dynamixel_NUM; i++)
     {
         target_joint_angle[i] = pose->position[i];
+        if (target_joint_angle[i] == 0.0)
+        {
+            error_flag = true;
+        }
     }
-
-    dynamixel_ctrl.moveToAngle(target_joint_angle);
-    // ROS_INFO_STREAM("Target joint angle is:"<< "[" << pose->position[0] << "," << pose->position[1] << "," << pose->position[2] << "," << pose->position[3] << "," << pose->position[4] << "," << pose->position[5] << "]");
-    dynamixel_ctrl.getAngle(present_joint_angle);
-    // ROS_INFO_STREAM("Present joint angle is: [" << present_joint_angle[0] << "," << present_joint_angle[1] << "," << present_joint_angle[2] << "," << present_joint_angle[3] << "," << present_joint_angle[4] << "," << present_joint_angle[5] << "]");
-    dynamixel_ctrl.getPWM(present_pwm);
-    // ROS_INFO_STREAM("Present joint PWM is: [" << present_pwm[0] << "," << present_pwm[1] << "," << present_pwm[2] << "," << present_pwm[3] << "," << present_pwm[4] << "," << present_pwm[5] << "]");
-    dynamixel_ctrl.getLoad(present_load);
-    ROS_INFO_STREAM("Present joint LOAD is: [" << present_load[0] << "," << present_load[1] << "," << present_load[2] << "," << present_load[3] << "," << present_load[4] << "," << present_load[5] << "]");
+    if (!error_flag)
+    {
+        dynamixel_ctrl.moveToAngle(target_joint_angle);
+        // ROS_INFO_STREAM("Target joint angle is:"
+        //                 << "[" << pose->position[0] << "," << pose->position[1] << "," << pose->position[2] << "," << pose->position[3] << "," << pose->position[4] << "," << pose->position[5] << "]");
+        dynamixel_ctrl.getAngle(present_joint_angle);
+        // ROS_INFO_STREAM("Present joint angle is: [" << present_joint_angle[0] << "," << present_joint_angle[1] << "," << present_joint_angle[2] << "," << present_joint_angle[3] << "," << present_joint_angle[4] << "," << present_joint_angle[5] << "]");
+        // dynamixel_ctrl.getPWM(present_pwm);
+        // ROS_INFO_STREAM("Present joint PWM is: [" << present_pwm[0] << "," << present_pwm[1] << "," << present_pwm[2] << "," << present_pwm[3] << "," << present_pwm[4] << "," << present_pwm[5] << "]");
+        // dynamixel_ctrl.getLoad(present_load);
+        // ROS_INFO_STREAM("Present joint LOAD is: [" << present_load[0] << "," << present_load[1] << "," << present_load[2] << "," << present_load[3] << "," << present_load[4] << "," << present_load[5] << "]");
+    }
 }
 
 /*-------------------------------------main------------------------------------------*/

@@ -1,0 +1,4 @@
+<launch>
+  <rosparam command="load" file="$(find mini6dof_arm)/parameter/yolo_param.yaml" />
+  <node name="yolov5" pkg="mini6dof_arm" type="yolo_arm.py" output="screen"/>
+</launch>

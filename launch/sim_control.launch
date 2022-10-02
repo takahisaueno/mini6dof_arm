@@ -2,8 +2,7 @@
 <launch>
     
   
-
-  <group if="$(arg mode)">
+  <group if="$(eval mode==1)">
   <node name="MyRobotHardwareInterface" pkg="mini6dof_arm" type="MyRobot_hardware_interface" output="screen" ns="/arm_robot"/>  
   </group>
   <group if="$(eval moveit==false)">
@@ -30,11 +29,9 @@
     "/>
   </group>
 
+  <group if="$(eval mode==2)">
+  <node name="simple_moveit_subscriber" pkg="mini6dof_arm" type="simple_moveit_subscriber" respawn="false" required="false" output="screen"/>
+  </group>
 
-  <!-- <node name="controller_spawner" pkg="controller_manager" type="spawner"
-        args="arm_controller" output="screen"/> -->
-  
-  <!-- <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen" ns="/arm_robot"/> -->
-  <!-- <node  name="rviz" pkg="rviz" type="rviz" args="-d $(find mini6dof_arm)/launch/urdf.rviz "/>  -->
 </launch>
 
