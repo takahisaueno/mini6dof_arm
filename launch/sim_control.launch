@@ -29,9 +29,18 @@
     "/>
   </group>
 
-  <group if="$(eval mode==2)">
-  <node name="simple_moveit_subscriber" pkg="mini6dof_arm" type="simple_moveit_subscriber" respawn="false" required="false" output="screen"/>
+  <group if="$(eval mode==2 and pid==false)">
+  <node name="simple_moveit_subscriber" pkg="mini6dof_arm" type="simple_moveit_subscriber" respawn="false" required="false" output="screen" args="false"/>
   </group>
+
+  <group if="$(eval mode==2 and pid==true)">
+  <node name="simple_moveit_subscriber" pkg="mini6dof_arm" type="simple_moveit_subscriber" respawn="false" required="false" output="screen" args="true"/>
+  </group>  
+
+  <group if="$(eval pid==true)">
+  <include file="$(find dynamixel_control)/launch/reconfigure_PID.launch"/>
+  </group>
+
 
 </launch>
 

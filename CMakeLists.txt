@@ -12,12 +12,27 @@ std_msgs
 dynamixel_sdk
 dynamixel_control
 controller_manager
+message_generation
 )
+
+
+## Generate services in the 'srv' folder
+# add_service_files(
+#   FILES
+#   pid_parameter.srv
+# )
+
+## Generate added messages and services with any dependencies listed here
+# generate_messages(
+#   DEPENDENCIES
+#   std_msgs
+# )
+
 
 catkin_package(
   INCLUDE_DIRS include
   LIBRARIES mini6dof_arm
-  CATKIN_DEPENDS roscpp rospy sensor_msgs std_msgs message_runtime dynamixel_control dynamixel_sdk roslib controller_manager
+  CATKIN_DEPENDS roscpp rospy sensor_msgs std_msgs message_runtime dynamixel_control dynamixel_sdk roslib controller_manager 
 )
 
 include_directories(

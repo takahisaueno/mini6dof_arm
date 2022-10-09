@@ -28,7 +28,7 @@ class GetYoloData():
         self.socket_address=random.randint(1030, 9999)
         rospy.loginfo("----------------------------------"+str(self.source)+"----------------------------")
         os.system("python3 "+self.yolo_path+" --source "+str(self.source)+" --weights "+self.weights+" --socket_address "+str(self.socket_address)+" --socket_flag "+"&")
-        rospy.sleep(10.0)
+        rospy.sleep(5.0)
     
     def get_param(self):
         self.source=rospy.get_param("~source",0)

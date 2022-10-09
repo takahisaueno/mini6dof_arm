@@ -5,6 +5,7 @@
   <arg name="mode" default="0" type="int"/>
   <arg name="moveit" default="true"/>
   <arg name="yolo" default="false"/>
+  <arg name="pid" default="false"/>
 
   <param name="robot_description" textfile="$(arg model)"/>
   <group if="$(eval (mode==0 or mode==2))">
@@ -16,6 +17,11 @@
   <group if="$(eval moveit==true)" ns="arm_robot">
     <include file="$(find mini6dof_arm_config)/launch/arm_robot_planning_execution.launch"/>
   </group>
+  
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"> 
+    <param name="/use_gui" value="false"/> 
+    <rosparam param="/source_list">[/arm_robot/joint_states]</rosparam>
+  </node>
 
   <group if="$(eval yolo==true)">
     <include file="$(find mini6dof_arm)/launch/yolo_arm.launch"/>
