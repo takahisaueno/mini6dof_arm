@@ -3,3 +3,4 @@ yolov5:
   source: 4
   get_image: False
   model: "yolov5s.pt"
+  camera_param: "/home/ubuntu/catkin_ws/src/camera_callibration/camera.yaml"

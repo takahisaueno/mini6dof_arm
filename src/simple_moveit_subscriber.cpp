@@ -91,7 +91,9 @@ void SimpleMoveItSubscriber::poseCallback(const sensor_msgs::JointStateConstPtr 
         //                 << "[" << pose->position[0] << "," << pose->position[1] << "," << pose->position[2] << "," << pose->position[3] << "," << pose->position[4] << "," << pose->position[5] << "]");
         dynamixel_ctrl.getAngle(present_joint_angle);
         pubAngle();
-        set_pid_gain();
+        if(!pid_parameter_toggle){
+            set_pid_gain();
+        }
 
         // ROS_INFO_STREAM("Present joint angle is: [" << present_joint_angle[0] << "," << present_joint_angle[1] << "," << present_joint_angle[2] << "," << present_joint_angle[3] << "," << present_joint_angle[4] << "," << present_joint_angle[5] << "]");
         // dynamixel_ctrl.getPWM(present_pwm);
@@ -110,16 +112,26 @@ bool SimpleMoveItSubscriber::pid_parameter_changer(dynamixel_control::pid_parame
 
         // dynamixel_ctrl.getPosPID(present_p_gain, present_i_gain, present_d_gain);
 
-
-
-
-
         //この上のdynamixelのPIDゲインを取得する部分は直さないと行けない　問題：なぜか値を取得できない2022/10/9
-        for (int i = 0; i < Dynamixel_NUM; i++)
         {
-            present_p_gain[i] = 800;
-            present_i_gain[i] = 0;
-            present_d_gain[i] = 0;
+            present_p_gain[0] = 1500;
+            present_p_gain[1] = 5000;
+            present_p_gain[2] = 5000;
+            present_p_gain[3] = 1400;
+            present_p_gain[4] = 7000;
+            present_p_gain[5] = 800;
+            present_i_gain[0] = 0;
+            present_i_gain[1] = 0;
+            present_i_gain[2] = 0;
+            present_i_gain[3] = 0;
+            present_i_gain[4] = 0;
+            present_i_gain[5] = 0;
+            present_d_gain[0] = 3000;
+            present_d_gain[1] = 7000;
+            present_d_gain[2] = 7000;
+            present_d_gain[3] = 600;
+            present_d_gain[4] = 3000;
+            present_d_gain[5] = 0;
         }
         ROS_INFO_STREAM(present_p_gain[0] << "," << present_p_gain[1] << "," << present_p_gain[2] << "," << present_p_gain[3] << "," << present_p_gain[4] << "," << present_p_gain[5]);
         ROS_INFO_STREAM(present_i_gain[0] << "," << present_i_gain[1] << "," << present_i_gain[2] << "," << present_i_gain[3] << "," << present_i_gain[4] << "," << present_i_gain[5]);
@@ -193,7 +205,6 @@ void SimpleMoveItSubscriber::send_initial_parameter()
         parameter_msg.request.position_p_gain[i] = present_p_gain[i];
         parameter_msg.request.position_i_gain[i] = present_i_gain[i];
         parameter_msg.request.position_d_gain[i] = present_d_gain[i];
-
     }
 
     parameter_msg.request.present_time = ros::Time::now();
@@ -234,7 +245,7 @@ int main(int argc, char **argv)
             ROS_INFO_STREAM("This mode will do the PID parameter tuning");
             simple_moveit.reset(new SimpleMoveItSubscriber(true));
         }
-        else if (pid_flag_arg.compare("false") != 0)
+        else if (pid_flag_arg.compare("false") == 0)
         {
             ROS_INFO_STREAM("This mode will use the initial pid parameter");
             simple_moveit.reset(new SimpleMoveItSubscriber(false));

@@ -73,7 +73,7 @@
     <child link="arm2_link"/>
     <origin rpy="0 0 0" xyz="0 0 0.06"/>
     <axis xyz="0 1 0"/>
-    <limit effort="30" lower="-1.5" upper="1.5" velocity="1.5"/>
+    <limit effort="30" lower="-2.0" upper="2.0" velocity="1.5"/>
   </joint>
   <link name="arm2_link">
     <collision>
@@ -102,7 +102,7 @@
     <child link="arm3_link"/>
     <origin rpy="0 0 0" xyz="0 0 0.100"/>
     <axis xyz="0 1 0"/>
-    <limit effort="30" lower="-1.7" upper="1.7" velocity="1.5"/>
+    <limit effort="30" lower="-1.7" upper="2.26" velocity="1.5"/>
   </joint>
   <link name="arm3_link">
     <collision>

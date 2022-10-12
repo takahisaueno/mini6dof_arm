@@ -1,4 +1,5 @@
 <launch>
-  <rosparam command="load" file="$(find mini6dof_arm)/parameter/yolo_param.yaml" />
-  <node name="yolov5" pkg="mini6dof_arm" type="yolo_arm.py" output="screen"/>
+  <arg name="target_object" default="person"/>
+  <rosparam command="load" file="$(find mini6dof_arm)/parameter/yolo_param.yaml"/>
+  <node name="yolov5" pkg="mini6dof_arm" type="yolo_arm.py" output="screen" args="--object $(arg target_object)"/>
 </launch>
