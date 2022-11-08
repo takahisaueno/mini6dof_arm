@@ -26,6 +26,11 @@ https://user-images.githubusercontent.com/107166405/200532558-7f651eaf-b58d-436d
 
 https://user-images.githubusercontent.com/107166405/200532687-34732260-e526-4a11-95f8-509fd4c7b663.mp4
 
+
+## PID gain tuning mode
+
+[Dynamixel_PID_gain.webm](https://user-images.githubusercontent.com/107166405/200537556-3db1a773-beba-4350-b65a-5a4e5d36be3e.webm)
+
 # Next Task
 
 今後は、ロボットアームの**インピーダンス制御や外力推定**に向けて使用しているDynamixelサーボのトルク測定を行います。
