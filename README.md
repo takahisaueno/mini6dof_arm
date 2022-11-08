@@ -7,7 +7,8 @@
 - yoloなどの画像認識モジュールを用いた開発
 - 深層予測学習ベースの物体のピッキングタスクの実現
 
-Twitter account: 
+[進捗を上げるtwitter](https://twitter.com/siodakaram6dfam)
+
 # Progress
 
 ロボットの動作生成をposition_controllerで制御するためのプラットフォームの構築が完成しました。
