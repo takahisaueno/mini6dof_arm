@@ -81,7 +81,7 @@ class GetYoloData():
             pixel_distance_from_before.append(pixel_distance)
         
         if not pixel_distance_from_before:
-            return [self.before_target_pixel_x,self.before_target_pixel_y]
+            return None
         else:
             target_pixel=self.target_middle_pixel(self.msg[target_list_index[pixel_distance_from_before.index(min(pixel_distance_from_before))]])
             self.before_target_pixel_x=target_pixel[0]
@@ -100,18 +100,19 @@ class GetYoloData():
         self.camera_matrix=self.cam_param["camera_matrix"]["data"]
 
     def calculate_vector(self,target_pixel):
-        target_vector=Vector3()
-        target_vector.x=float(target_pixel[0]-self.camera_matrix[2])/self.camera_matrix[0]
-        target_vector.y=float(target_pixel[1]-self.camera_matrix[5])/self.camera_matrix[4]
-        target_vector.z=1.0
+        if target_pixel!=None:
+            target_vector=Vector3()
+            target_vector.x=float(target_pixel[0]-self.camera_matrix[2])/self.camera_matrix[0]
+            target_vector.y=float(target_pixel[1]-self.camera_matrix[5])/self.camera_matrix[4]
+            target_vector.z=1.0
 
-        target_vector_norm=Vector3()
-        target_vector_norm.x=target_vector.x/(target_vector.x**2+target_vector.y**2+target_vector.z**2)**0.5
-        target_vector_norm.y=target_vector.y/(target_vector.x**2+target_vector.y**2+target_vector.z**2)**0.5
-        target_vector_norm.z=target_vector.z/(target_vector.x**2+target_vector.y**2+target_vector.z**2)**0.5
-        
-        
-        self.pub_target_vector.publish(target_vector_norm)
+            target_vector_norm=Vector3()
+            target_vector_norm.x=target_vector.x/(target_vector.x**2+target_vector.y**2+target_vector.z**2)**0.5
+            target_vector_norm.y=target_vector.y/(target_vector.x**2+target_vector.y**2+target_vector.z**2)**0.5
+            target_vector_norm.z=target_vector.z/(target_vector.x**2+target_vector.y**2+target_vector.z**2)**0.5
+            
+            
+            self.pub_target_vector.publish(target_vector_norm)
 
 
 

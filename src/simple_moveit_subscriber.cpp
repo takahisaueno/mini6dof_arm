@@ -91,9 +91,7 @@ void SimpleMoveItSubscriber::poseCallback(const sensor_msgs::JointStateConstPtr 
         //                 << "[" << pose->position[0] << "," << pose->position[1] << "," << pose->position[2] << "," << pose->position[3] << "," << pose->position[4] << "," << pose->position[5] << "]");
         dynamixel_ctrl.getAngle(present_joint_angle);
         pubAngle();
-        if(!pid_parameter_toggle){
-            set_pid_gain();
-        }
+        set_pid_gain();
 
         // ROS_INFO_STREAM("Present joint angle is: [" << present_joint_angle[0] << "," << present_joint_angle[1] << "," << present_joint_angle[2] << "," << present_joint_angle[3] << "," << present_joint_angle[4] << "," << present_joint_angle[5] << "]");
         // dynamixel_ctrl.getPWM(present_pwm);

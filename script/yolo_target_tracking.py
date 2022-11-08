@@ -12,7 +12,7 @@ from tf.transformations import *
 import pdb 
 import copy
 import math
-
+import numpy as np
 
 
 
@@ -109,47 +109,55 @@ class endeffector_rotation:
 
     def euler_format(self,euler_angle):
         if euler_angle[0]<0:
-            euler_angle[0]=2*PI-euler_angle[0]
+            euler_angle[0]=2*PI+euler_angle[0]
 
 
         if euler_angle[2]<0:
-            euler_angle[2]=2*PI-euler_angle[2]
+            euler_angle[2]=2*PI+euler_angle[2]
 
         return euler_angle
 
     def callback_target(self,target_vector):
-        pass
-        # if self.starting_flag==True:
-        #     self.sub_target_vector=target_vector
 
-        #     theta=math.acos(target_vector.z)
-        #     phi=math.acos(target_vector.x/math.sin(theta))
+        if self.starting_flag==True:
+            self.sub_target_vector=target_vector
+            print(target_vector.x,",",target_vector.y,",",target_vector.z,",")
+            theta=math.acos(target_vector.z)
+            phi=math.acos(target_vector.x/math.sin(theta))
 
-        #     # rospy.loginfo(str(theta)+","+str(phi))
-        #     euler_z=-PI/2+phi
-        #     euler_x=-theta
-        #     euler_y=0.0
+            # rospy.loginfo(str(theta)+","+str(phi))
+            euler_z=-PI/2+phi
+            euler_x=-theta
+            euler_y=0.0
 
-        #     euler_angle=self.euler_format([euler_x,euler_y,euler_z])
-        #     # print(euler_angle)
-        #     twist_from_present=Twist()
+            target_vector_list=np.array([[target_vector.x],[target_vector.y],[target_vector.z]])
+            z_axis_list=np.array([[0],[0],[1]])
 
-        #     twist_from_present.linear=Vector3(x=0.0,y=0.0,z=0.0)
-        #     twist_from_present.angular=Vector3(x=euler_angle[0],y=euler_angle[1],z=euler_angle[2])
-        #     translation,_quertanion=self.computing_quertanion(twist_from_present)
+            print(superimposition_matrix(z_axis_list,target_vector_list))
+
+
+            # print(euler_x,euler_y,euler_z)
+
+            euler_angle=self.euler_format([euler_x,euler_y,euler_z])
+            print(euler_angle)
+            twist_from_present=Twist()
+
+            twist_from_present.linear=Vector3(x=0.0,y=0.0,z=0.0)
+            twist_from_present.angular=Vector3(x=euler_angle[0],y=euler_angle[1],z=euler_angle[2])
+            translation,_quertanion=self.computing_quertanion(twist_from_present)
 
             
-        #     diff_quat=[_quertanion.x,_quertanion.y,_quertanion.z,_quertanion.w]
-        #     print(diff_quat)
-        #     present_cam_quat=[self.pose_goal.orientation.x,self.pose_goal.orientation.y,self.pose_goal.orientation.z,self.pose_goal.orientation.w]
+            diff_quat=[_quertanion.x,_quertanion.y,_quertanion.z,_quertanion.w]
+            # print(diff_quat)
+            present_cam_quat=[self.pose_goal.orientation.x,self.pose_goal.orientation.y,self.pose_goal.orientation.z,self.pose_goal.orientation.w]
             
-        #     next_cam_quat=quaternion_multiply(diff_quat, present_cam_quat)
+            next_cam_quat=quaternion_multiply(diff_quat, present_cam_quat)
 
-        #     self.desired_quertanion.x=next_cam_quat[0]
-        #     self.desired_quertanion.y=next_cam_quat[1]  
-        #     self.desired_quertanion.z=next_cam_quat[2]  
-        #     self.desired_quertanion.w=next_cam_quat[3]  
-        #     print(next_cam_quat)
+            self.desired_quertanion.x=next_cam_quat[0]
+            self.desired_quertanion.y=next_cam_quat[1]  
+            self.desired_quertanion.z=next_cam_quat[2]  
+            self.desired_quertanion.w=next_cam_quat[3]  
+            # print(next_cam_quat)
         
         
 

@@ -4,6 +4,7 @@
   
   <arg name="mode" default="0" type="int"/>
   <arg name="moveit" default="true"/>
+  <arg name="demo" default="false"/>
   <arg name="yolo" default="false"/>
   <arg name="pid" default="false"/>
 
@@ -14,8 +15,17 @@
   </group>
 
   <include file="$(find mini6dof_arm)/launch/sim_control.launch" pass_all_args="true"/>
-  <group if="$(eval moveit==true)" ns="arm_robot">
-    <include file="$(find mini6dof_arm_config)/launch/arm_robot_planning_execution.launch"/>
+
+  <group if="$(eval moveit==true and demo==false)" ns="arm_robot">
+    <include file="$(find mini6dof_arm_config)/launch/arm_robot_planning_execution.launch">
+    <arg name="demo_moveit" value="false"/>
+    </include>
+  </group>
+
+  <group if="$(eval moveit==true and demo==true)" ns="arm_robot">
+    <include file="$(find mini6dof_arm_config)/launch/arm_robot_planning_execution.launch">
+    <arg name="demo_moveit" value="true"/>
+    </include>
   </group>
   
   <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"> 
