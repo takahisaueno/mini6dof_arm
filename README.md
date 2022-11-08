@@ -12,5 +12,40 @@
 # Progress
 
 ロボットの動作生成をposition_controllerで制御するためのプラットフォームの構築が完成しました。
-動作生成は以下の動画のような種類が現在用意できています。
+動作生成は以下の動画のような種類が現在用意できています。これらのプラットフォームはすべてROS1で作っています(順次ROS2に移行予定)
+
+## demo mode
+
+https://user-images.githubusercontent.com/107166405/200532276-9d09ea74-67c4-446f-ba8a-c22c28f4ddd0.mp4
+
+## RCM mode
+
+https://user-images.githubusercontent.com/107166405/200532558-7f651eaf-b58d-436d-8fd3-f8c7f01e9ea6.mp4
+
+## YOLOv5 mode
+
+https://user-images.githubusercontent.com/107166405/200532687-34732260-e526-4a11-95f8-509fd4c7b663.mp4
+
+# Next Task
+
+今後は、ロボットアームのインピーダンス制御に向けて使用しているDynamixelサーボのトルク測定を行います。
+ここでは二つのモーター特性評価を行います。
+
+## 停動トルク測定
+
+![Torque_measurement_unit](https://user-images.githubusercontent.com/107166405/200535368-3e2929aa-be9f-476b-b4e7-e44b864824dd.png)
+
+このトルク測定装置はDynamixelシリーズの停動トルクをloadcellで測定するための装置である。
+
+## 動的トルク測定
+
+Dynamixelは高減速比アクチュエータであるために回転数によってモータ特性が変化すると考えられるために、パウダークラッチをブラシレスモータに代替した安価が動的トルク測定装置を製作する
+
+
+
+
+
+
+
+
 
